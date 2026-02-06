@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>土耳其行程（2/18 18:00—2/21）｜地图+时间+价目</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#101824; --muted:#9fb0c3; --text:#eaf2ff; --accent:#4aa3ff;
+      --border: rgba(255,255,255,.10);
+    }
+    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 14px 28px;}
+    h1{font-size:18px;margin:10px 0 6px;}
+    .sub{color:var(--muted);font-size:12px;margin:0 0 10px;}
+    .grid{display:grid;grid-template-columns: 1.2fr .8fr;gap:12px;}
+    #map{height:520px;border-radius:14px;overflow:hidden;border:1px solid var(--border);}
+    .panel{display:flex;flex-direction:column;gap:12px;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;}
+    .card h2{font-size:14px;margin:0 0 10px;}
+    .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;}
+    .pill{border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);
+      padding:6px 10px;border-radius:999px;font-size:12px;cursor:pointer;user-select:none;}
+    .pill:hover{border-color:rgba(74,163,255,.55);}
+    .pill.active{background:rgba(74,163,255,.18);border-color:rgba(74,163,255,.65);}
+    .legend{font-size:12px;color:var(--muted);line-height:1.5}
+    table{width:100%;border-collapse:collapse;font-size:12px;}
+    th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;}
+    th{color:#cfe3ff;font-weight:600;text-align:left;}
+    .day{margin:0;padding-left:16px;color:var(--text);font-size:12px;line-height:1.55;}
+    .day li{margin:6px 0;}
+    .spot{color:#cfe3ff;}
+    .note{color:var(--muted);font-size:11px;line-height:1.45;margin-top:8px;}
+    .two{display:grid;grid-template-columns: 1fr 1fr; gap:10px;}
+    @media (max-width: 900px){
+      .grid{grid-template-columns: 1fr;}
+      #map{height:480px;}
+      .two{grid-template-columns:1fr;}
+    }
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>土耳其行程（2/18 18:00—2/21）｜地图 + 行程时间 + 价目</h1>
+    <p class="sub">底图为开源 OpenStreetMap（无需密钥）。点位弹窗含：中文/英文名 + 日期时间 + 简介，并提供导航链接。</p>
+
+    <div class="grid">
+      <div id="map"></div>
+
+      <div class="panel">
+        <div class="card">
+          <h2>地图筛选</h2>
+          <div class="legend">点击按钮，仅显示对应日期点位与路线。</div>
+          <div class="pillbar" id="filters"></div>
+          <div class="note">
+            若网络环境限制导致加载慢：请点击弹窗内 <b>Google Maps</b> / <b>OpenStreetMap</b> 进入单点导航。
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>每日行程（精简可执行版）</h2>
+          <div class="two">
+            <div>
+              <div style="font-weight:600;margin:0 0 6px;">2/18（到达安塔利亚）</div>
+              <ol class="day">
+                <li><span class="spot">18:00</span> 安塔利亚机场到达接人（Antalya Airport, AYT）</li>
+                <li><span class="spot">19:00</span> 入住：安塔利亚万豪行政公寓（Antalya Marriott Executive Apartments）</li>
+                <li><span class="spot">19:30–20:45</span> 土耳其浴（Hamam，需预约）</li>
+                <li><span class="spot">21:00–22:00</span> 老城 Kaleiçi + 港口散步（Hadrian's Gate → Kaleiçi Marina）</li>
+              </ol>
+            </div>
+
+            <div>
+              <div style="font-weight:600;margin:0 0 6px;">2/19（海岸古城 + Kaş）</div>
+              <ol class="day">
+                <li><span class="spot">09:30</span> 从安塔利亚出发（D400 海岸线）</li>
+                <li><span class="spot">10:35–11:20</span> Phaselis 古城（观赏打卡）</li>
+                <li><span class="spot">12:55–13:40</span> Myra 古城（观赏打卡）</li>
+                <li><span class="spot">13:40–14:20</span> Demre 午餐（40分钟内）</li>
+                <li><span class="spot">15:00</span> 海岸观景短停（10分钟）</li>
+                <li><span class="spot">16:00</span> 抵达并入住：Kaş</li>
+                <li><span class="spot">16:45–17:30</span> 占卜咖啡（必须完成；入店先确认 fal）</li>
+                <li><span class="spot">17:45–18:30</span> Kaş 港口看日落（单独观赏）</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="two" style="margin-top:10px;">
+            <div>
+              <div style="font-weight:600;margin:0 0 6px;">2/20（自然景观 + 轻徒步）</div>
+              <ol class="day">
+                <li><span class="spot">09:00</span> Kaş 出发 → Ölüdeniz</li>
+                <li><span class="spot">11:00–12:15</span> Ölüdeniz 蓝湖（海滩散步拍照）</li>
+                <li><span class="spot">12:15–13:30</span> 利西亚步道轻徒步（Ölüdeniz 俯瞰段）</li>
+                <li><span class="spot">13:45–14:30</span> 午餐（Ölüdeniz 或 Fethiye）</li>
+                <li><span class="spot">15:00–16:00</span> Tlos 古城（山顶视野）</li>
+                <li><span class="spot">16:45–17:00</span> 入住：费特希耶（Fethiye）</li>
+                <li><span class="spot">17:45</span> 费特希耶港口日落散步</li>
+              </ol>
+            </div>
+
+            <div>
+              <div style="font-weight:600;margin:0 0 6px;">2/21（以弗所 → 伊兹密尔机场）</div>
+              <ol class="day">
+                <li><span class="spot">08:30</span> 从 Fethiye 出发</li>
+                <li><span class="spot">11:45–12:00</span> 抵达以弗所停车区</li>
+                <li><span class="spot">12:00–14:00</span> 以弗所古城（2小时舒适参观）</li>
+                <li><span class="spot">14:00</span> 出发前往 İzmir 机场</li>
+                <li><span class="spot">15:00</span> 抵达 İzmir Airport（建议 ≥15:30 在机场）</li>
+                <li><span class="spot">17:00</span> 航班：İzmir → İstanbul</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="note">时间为“执行级”建议，已包含你确认的出发点与强制体验。</div>
+        </div>
+
+        <div class="card">
+          <h2>价目（门票/体验）</h2>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:34%;">项目</th>
+                <th style="width:33%;">参考价</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Phaselis 古城<br/>Phaselis Ancient City</td>
+                <td><b>476 TRY</b></td>
+                <td>2026 标注价；MuseumPass Türkiye 可免票（如持有）。</td>
+              </tr>
+              <tr>
+                <td>Myra 古城（Demre）<br/>Myra Ancient City</td>
+                <td><b>450 TRY</b></td>
+                <td>2026 标注价；MuseumPass Türkiye 可免票（如持有）。</td>
+              </tr>
+              <tr>
+                <td>Tlos 古城<br/>Tlos Ancient City</td>
+                <td><b>约 €3 / 人</b>（现场以 TRY 结算）</td>
+                <td>第三方指南/行程产品常见标注；以现场为准。</td>
+              </tr>
+              <tr>
+                <td>以弗所古城（含体验馆）<br/>Ephesus + Experience Museum</td>
+                <td><b>€40 / 人</b></td>
+                <td>常见公开标价；现场一般可刷卡，也可通过平台买“免排队+语音”。</td>
+              </tr>
+              <tr>
+                <td>以弗所 + Terrace Houses<br/>Ephesus + Terrace Houses + Experience Museum</td>
+                <td><b>€52 / 人</b></td>
+                <td>如加“贵族住宅”，建议将参观时间延长到 ≥2.5h。</td>
+              </tr>
+              <tr>
+                <td>Ölüdeniz 海滩/蓝湖区域<br/>Ölüdeniz (beach)</td>
+                <td><b>海滩免费</b></td>
+                <td>进入“自然公园/保护区”可能有车辆或门口收费（以现场为准）。</td>
+              </tr>
+              <tr>
+                <td>利西亚步道轻徒步<br/>Lycian Way (short hike)</td>
+                <td><b>免费</b></td>
+                <td>公共步道。</td>
+              </tr>
+              <tr>
+                <td>土耳其浴（Hamam）</td>
+                <td><b>价格随店而变</b></td>
+                <td>建议提前预约确认：去角质 + 泡沫按摩是否包含、时长、男女区。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">以上用于预算；实际以当天现场/平台订单为准。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const map = L.map('map', { zoomControl: true }).setView([37.3, 30.5], 7);
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const days = [
+    { id: "d218", label: "2/18 晚" },
+    { id: "d219", label: "2/19" },
+    { id: "d220", label: "2/20" },
+    { id: "d221", label: "2/21" },
+    { id: "all",  label: "全部" }
+  ];
+
+  const POIS = [
+    { day:"d218", nameCN:"安塔利亚机场", nameEN:"Antalya Airport (AYT)", lat:36.8987, lon:30.8005,
+      time:"18:00", desc:"到达接人。", g:"https://maps.google.com/?q=Antalya%20Airport%20AYT", o:"https://www.openstreetmap.org/?mlat=36.8987&mlon=30.8005#map=15/36.8987/30.8005" },
+    { day:"d218", nameCN:"安塔利亚万豪行政公寓", nameEN:"Antalya Marriott Executive Apartments", lat:36.8809, lon:30.7056,
+      time:"19:00", desc:"入住/放行李。", g:"https://maps.google.com/?q=Antalya%20Marriott%20Executive%20Apartments", o:"https://www.openstreetmap.org/?mlat=36.8809&mlon=30.7056#map=16/36.8809/30.7056" },
+    { day:"d218", nameCN:"土耳其浴（Hamam）", nameEN:"Turkish Bath (Hamam)", lat:36.8845, lon:30.7050,
+      time:"19:30–20:45", desc:"建议选择老城/市区高评分店；以预约为准。", g:"https://maps.google.com/?q=hamam%20Antalya%20Kaleici", o:"https://www.openstreetmap.org/search?query=hamam%20Antalya%20Kaleici" },
+    { day:"d218", nameCN:"哈德良门", nameEN:"Hadrian's Gate", lat:36.8841, lon:30.7086,
+      time:"21:00", desc:"老城入口标志性罗马拱门。", g:"https://maps.google.com/?q=Hadrian%27s%20Gate%20Antalya", o:"https://www.openstreetmap.org/?mlat=36.8841&mlon=30.7086#map=17/36.8841/30.7086" },
+    { day:"d218", nameCN:"卡莱伊奇港口", nameEN:"Kaleiçi Marina", lat:36.8854, lon:30.7038,
+      time:"21:30", desc:"夜间散步终点，海湾与灯光。", g:"https://maps.google.com/?q=Kaleici%20Marina%20Antalya", o:"https://www.openstreetmap.org/?mlat=36.8854&mlon=30.7038#map=17/36.8854/30.7038" },
+
+    { day:"d219", nameCN:"法塞利斯古城", nameEN:"Phaselis Ancient City", lat:36.5242, lon:30.5517,
+      time:"10:35–11:20", desc:"海湾港口遗址+松树林，45分钟观赏打卡。", g:"https://maps.google.com/?q=Phaselis%20Ancient%20City", o:"https://www.openstreetmap.org/?mlat=36.5242&mlon=30.5517#map=16/36.5242/30.5517" },
+    { day:"d219", nameCN:"迈拉古城", nameEN:"Myra Ancient City (Demre)", lat:36.2443, lon:29.9852,
+      time:"12:55–13:40", desc:"岩壁墓穴+罗马剧场，45分钟观赏打卡。", g:"https://maps.google.com/?q=Myra%20Ancient%20City%20Demre", o:"https://www.openstreetmap.org/?mlat=36.2443&mlon=29.9852#map=16/36.2443/29.9852" },
+    { day:"d219", nameCN:"海岸观景短停（示意）", nameEN:"Coastal View Stop (example)", lat:36.1500, lon:29.7000,
+      time:"15:00–15:10", desc:"Demre→Kaş 段找安全路肩短停拍照（10分钟）。", g:"https://maps.google.com/?q=36.15,29.70", o:"https://www.openstreetmap.org/?mlat=36.15&mlon=29.70#map=13/36.15/29.70" },
+    { day:"d219", nameCN:"卡什入口俯瞰点（示意）", nameEN:"Kaş Viewpoint (example)", lat:36.2018, lon:29.6453,
+      time:"15:40–15:50", desc:"进入小镇前高点俯瞰海湾。", g:"https://maps.google.com/?q=36.2018,29.6453", o:"https://www.openstreetmap.org/?mlat=36.2018&mlon=29.6453#map=15/36.2018/29.6453" },
+    { day:"d219", nameCN:"卡什小镇（住宿区）", nameEN:"Kaş (town center)", lat:36.2016, lon:29.6374,
+      time:"16:00", desc:"入住后步行活动为主。", g:"https://maps.google.com/?q=Kas%20Antalya", o:"https://www.openstreetmap.org/?mlat=36.2016&mlon=29.6374#map=15/36.2016/29.6374" },
+    { day:"d219", nameCN:"卡什土耳其咖啡馆", nameEN:"Kaş Türk Kahvecisi", lat:36.2017, lon:29.6394,
+      time:"16:45–17:30", desc:"占卜咖啡：入店先问 'Fal bakıyor musunuz?'。", g:"https://maps.google.com/?q=Ka%C5%9F%20T%C3%BCrk%20Kahvecisi", o:"https://www.openstreetmap.org/search?query=Ka%C5%9F%20T%C3%BCrk%20Kahvecisi" },
+    { day:"d219", nameCN:"卡什港口（日落）", nameEN:"Kaş Marina (sunset)", lat:36.2009, lon:29.6379,
+      time:"17:45–18:30", desc:"单独看日落，然后晚餐。", g:"https://maps.google.com/?q=Kas%20Marina", o:"https://www.openstreetmap.org/?mlat=36.2009&mlon=29.6379#map=16/36.2009/29.6379" },
+
+    { day:"d220", nameCN:"厄吕代尼兹蓝湖", nameEN:"Ölüdeniz Blue Lagoon", lat:36.5483, lon:29.1138,
+      time:"11:00–12:15", desc:"蓝湖/海滩散步拍照。", g:"https://maps.google.com/?q=Oludeniz%20Blue%20Lagoon", o:"https://www.openstreetmap.org/?mlat=36.5483&mlon=29.1138#map=16/36.5483/29.1138" },
+    { day:"d220", nameCN:"利西亚步道俯瞰点（示意）", nameEN:"Lycian Way Viewpoint (example)", lat:36.5520, lon:29.1020,
+      time:"12:15–13:30", desc:"轻徒步 45–60 分钟，俯瞰蓝湖。", g:"https://maps.google.com/?q=36.5520,29.1020", o:"https://www.openstreetmap.org/?mlat=36.5520&mlon=29.1020#map=15/36.5520/29.1020" },
+    { day:"d220", nameCN:"特罗斯古城", nameEN:"Tlos Ancient City", lat:36.5126, lon:29.4194,
+      time:"15:00–16:00", desc:"山顶城堡+岩墓+剧场。", g:"https://maps.google.com/?q=Tlos%20Ancient%20City", o:"https://www.openstreetmap.org/?mlat=36.5126&mlon=29.4194#map=16/36.5126/29.4194" },
+    { day:"d220", nameCN:"费特希耶（住宿区）", nameEN:"Fethiye (town center)", lat:36.6210, lon:29.1160,
+      time:"16:45–17:00", desc:"入住后步行港口散步。", g:"https://maps.google.com/?q=Fethiye", o:"https://www.openstreetmap.org/?mlat=36.6210&mlon=29.1160#map=14/36.6210/29.1160" },
+    { day:"d220", nameCN:"费特希耶港口（日落）", nameEN:"Fethiye Marina (sunset)", lat:36.6217, lon:29.1117,
+      time:"17:45", desc:"港口步道看余晖。", g:"https://maps.google.com/?q=Fethiye%20Marina", o:"https://www.openstreetmap.org/?mlat=36.6217&mlon=29.1117#map=16/36.6217/29.1117" },
+
+    { day:"d221", nameCN:"以弗所古城", nameEN:"Ephesus Ancient City", lat:37.9410, lon:27.3410,
+      time:"12:00–14:00", desc:"图书馆+大剧场+大理石街。", g:"https://maps.google.com/?q=Ephesus%20Ancient%20City", o:"https://www.openstreetmap.org/?mlat=37.9410&mlon=27.3410#map=15/37.9410/27.3410" },
+    { day:"d221", nameCN:"伊兹密尔机场", nameEN:"İzmir Adnan Menderes Airport (ADB)", lat:38.2924, lon:27.1567,
+      time:"15:00", desc:"建议 ≥15:30 在机场，17:00 起飞。", g:"https://maps.google.com/?q=Izmir%20Adnan%20Menderes%20Airport", o:"https://www.openstreetmap.org/?mlat=38.2924&mlon=27.1567#map=14/38.2924/27.1567" }
+  ];
+
+  const routes = {
+    d218: [[36.8987,30.8005],[36.8809,30.7056],[36.8841,30.7086],[36.8854,30.7038]],
+    d219: [[36.8809,30.7056],[36.5242,30.5517],[36.2443,29.9852],[36.1500,29.7000],[36.2018,29.6453],[36.2016,29.6374]],
+    d220: [[36.2016,29.6374],[36.5483,29.1138],[36.5126,29.4194],[36.6210,29.1160],[36.6217,29.1117]],
+    d221: [[36.6210,29.1160],[37.9410,27.3410],[38.2924,27.1567]]
+  };
+
+  const dayLayers = {};
+  const dayPolylines = {};
+
+  function makePopup(p){
+    const title = `<b>${p.nameCN}</b> / ${p.nameEN}`;
+    const meta = `<div style="margin-top:6px;color:#9fb0c3;font-size:12px"><b>时间</b>：${p.time}</div>`;
+    const desc = `<div style="margin-top:6px;font-size:12px;line-height:1.45">${p.desc}</div>`;
+    const links = `<div style="margin-top:8px;font-size:12px">
+      <a href="${p.g}" target="_blank" rel="noopener">Google Maps</a> ·
+      <a href="${p.o}" target="_blank" rel="noopener">OpenStreetMap</a>
+    </div>`;
+    return `<div style="min-width:240px">${title}${meta}${desc}${links}</div>`;
+  }
+
+  function initLayers(){
+    days.forEach(d => {
+      if(d.id === "all") return;
+      const layer = L.layerGroup();
+      POIS.filter(p=>p.day===d.id).forEach(p=>{
+        L.marker([p.lat, p.lon]).bindPopup(makePopup(p)).addTo(layer);
+      });
+      dayLayers[d.id]=layer;
+
+      const pts = routes[d.id] || [];
+      if(pts.length>1){
+        dayPolylines[d.id]=L.polyline(pts, { weight: 4, opacity: .75 });
+      }
+    });
+  }
+
+  function clearAll(){
+    Object.values(dayLayers).forEach(l=> map.removeLayer(l));
+    Object.values(dayPolylines).forEach(pl=> map.removeLayer(pl));
+  }
+
+  function showDay(dayId){
+    clearAll();
+    if(dayId==="all"){
+      Object.keys(dayLayers).forEach(k => dayLayers[k].addTo(map));
+      Object.keys(dayPolylines).forEach(k => dayPolylines[k].addTo(map));
+      map.fitBounds(POIS.map(p=>[p.lat,p.lon]), { padding:[30,30] });
+      return;
+    }
+    dayLayers[dayId].addTo(map);
+    if(dayPolylines[dayId]) dayPolylines[dayId].addTo(map);
+    const pts = (routes[dayId] || POIS.filter(p=>p.day===dayId).map(p=>[p.lat,p.lon]));
+    if(pts.length) map.fitBounds(pts, { padding:[30,30] });
+  }
+
+  function renderFilters(){
+    const el = document.getElementById("filters");
+    days.forEach(d=>{
+      const b = document.createElement("div");
+      b.className = "pill";
+      b.textContent = d.label;
+      b.dataset.day = d.id;
+      b.onclick = ()=>{
+        document.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));
+        b.classList.add("active");
+        showDay(d.id);
+      };
+      el.appendChild(b);
+    });
+    const def = [...document.querySelectorAll(".pill")].find(x=>x.dataset.day==="all");
+    def.classList.add("active");
+  }
+
+  initLayers();
+  renderFilters();
+  showDay("all");
+</script>
+</body>
+</html>

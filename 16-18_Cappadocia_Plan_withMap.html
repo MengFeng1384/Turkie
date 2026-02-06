@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2/16–2/18 行程（含地图）｜伊斯坦布尔→卡帕多奇亚→安塔利亚前</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+  :root { --w: 1040px; }
+  body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+         margin: 0; color: #111; background:#fff; }
+  header { padding: 18px 18px 0; max-width: var(--w); margin: 0 auto; }
+  h1 { font-size: 18px; margin: 0 0 6px; }
+  .meta { font-size: 12px; color:#444; margin: 0 0 10px; }
+  .wrap { max-width: var(--w); margin: 0 auto; padding: 12px 18px 22px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 14px; }
+  #map { height: 560px; border: 1px solid #ddd; border-radius: 10px; }
+  .card { border:1px solid #e6e6e6; border-radius: 10px; padding: 12px; }
+  h2 { font-size: 14px; margin: 0 0 8px; }
+  .day { margin: 0 0 10px; }
+  .day-title { font-weight: 700; font-size: 13px; margin: 10px 0 6px; }
+  ol { margin: 0; padding-left: 18px; }
+  li { margin: 0 0 7px; line-height: 1.25; }
+  .poi { font-weight: 600; }
+  .en { color:#555; font-weight: 500; }
+  .t { color:#111; font-weight: 700; margin-right: 6px; }
+  .desc { color:#333; font-size: 12px; margin-top: 2px; }
+  .controls { display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0 10px; }
+  button { border:1px solid #ddd; background:#fafafa; border-radius: 999px; padding: 6px 10px; font-size: 12px; cursor:pointer; }
+  button:hover { background:#f2f2f2; }
+  .pill { border:1px solid #ddd; border-radius: 999px; padding: 3px 8px; background:#fafafa; font-size:11px; color:#444; }
+  .legend { display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
+  .fallback { display:none; border:1px dashed #bbb; border-radius:10px; padding:10px; font-size:12px; color:#333; margin-top:10px; }
+  .fallback a { text-decoration: underline; }
+  @media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } #map{ height: 430px; } }
+  @page { size: A4; margin: 10mm; }
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    header, .wrap { max-width: none; }
+    #map { height: 125mm; }
+    .wrap { grid-template-columns: 1fr; gap: 10px; }
+    .card { page-break-inside: avoid; }
+    .controls { display:none; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <h1>2/16–2/18 行程（含地图标记）｜伊斯坦布尔→卡帕多奇亚→安塔利亚（接机前）</h1>
+  <p class="meta">地图底图与Leaflet脚本需联网加载；若网络拦截导致空白，将自动显示“备选链接”。2/18 提供 Plan A（含Çatalhöyük）与 Plan B（不含）。</p>
+</header>
+
+<div class="wrap">
+  <div>
+    <div class="controls">
+      <button onclick="fitAll()">显示全部点位</button>
+      <button onclick="focusDay('2/16')">聚焦 2/16</button>
+      <button onclick="focusDay('2/17')">聚焦 2/17</button>
+      <button onclick="showRoute('A')">显示 2/18 路线 Plan A</button>
+      <button onclick="showRoute('B')">显示 2/18 路线 Plan B</button>
+      <button onclick="showRoute('0')">隐藏路线</button>
+    </div>
+    <div id="map" aria-label="地图"></div>
+
+    <div id="fallback" class="fallback">
+      <b>地图无法加载（备选方案）</b><br/>
+      可能原因：CDN或OpenStreetMap底图被网络拦截。你仍可用下列链接打开点位：<br/>
+      <ul id="linklist" style="margin:8px 0 0; padding-left:18px;"></ul>
+      <div style="margin-top:8px;">
+        <a id="allpoints" target="_blank" rel="noopener">在 Google Maps 打开全部点位（列表）</a>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span class="pill">点击地图标记：查看中英文名、时间与看点，并可打开 Google Maps / OpenStreetMap</span>
+      <span class="pill">打印：浏览器“打印/另存为PDF”（A4样式已适配）</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>行程（简洁可交付）</h2>
+
+    <div class="day">
+      <div class="day-title">2/16｜伊斯坦布尔 → 卡帕多奇亚（Uçhisar 日落 + 洞穴晚餐）</div>
+      <ol>
+        <li><span class="t">08:30</span><span class="poi">来福士伊斯坦布尔</span> <span class="en">(Raffles Istanbul)</span>
+          <div class="desc">退房。</div></li>
+        <li><span class="t">09:30–11:00</span><span class="poi">Kadıköy（卡德柯伊）</span> <span class="en">(Kadıköy)</span>
+          <div class="desc">亚洲区轻松游览：海边步道、市场。</div></li>
+        <li><span class="t">14:00</span><span class="poi">伊斯坦布尔机场</span> <span class="en">(IST)</span>
+          <div class="desc">飞往开塞利。</div></li>
+        <li><span class="t">15:30</span><span class="poi">开塞利机场</span> <span class="en">(ASR)</span>
+          <div class="desc">抵达后转场至Nevşehir入住。</div></li>
+        <li><span class="t">17:30–18:00</span><span class="poi">Uçhisar城堡</span> <span class="en">(Uçhisar Castle)</span>
+          <div class="desc">日落全景制高点。</div></li>
+        <li><span class="t">18:15–19:30</span><span class="poi">Uçhisar/Göreme 洞穴餐厅</span>
+          <div class="desc">洞穴空间氛围 + 当地炖肉/陶罐烤肉（Testi Kebab）。</div></li>
+      </ol>
+    </div>
+
+    <div class="day">
+      <div class="day-title">2/17｜卡帕多奇亚（体验感优先 + 茶馆 + 地下城 + Love Valley 日落）</div>
+      <ol>
+        <li><span class="t">06:45</span><span class="poi">Göreme全景观景台</span> <span class="en">(Panorama)</span>
+          <div class="desc">日出与气球氛围（手机HDR/视频即可）。</div></li>
+        <li><span class="t">08:30</span><span class="poi">帕夏贝（僧侣谷）</span> <span class="en">(Paşabağ)</span>
+          <div class="desc">仙人烟囱密集区，走进岩柱小路。</div></li>
+        <li><span class="t">11:30</span><span class="poi">阿瓦诺斯</span> <span class="en">(Avanos)</span>
+          <div class="desc">午餐 + 河边小镇生活感。</div></li>
+        <li><span class="t">12:30</span><span class="poi">土耳其茶馆</span> <span class="en">(Çay)</span>
+          <div class="desc">茶馆坐一会儿，看当地人的慢节奏。</div></li>
+        <li><span class="t">14:00</span><span class="poi">Kaymaklı地下城</span> <span class="en">(Underground City)</span>
+          <div class="desc">45–60分钟：通风井/石门/多层结构。</div></li>
+        <li><span class="t">16:00–日落</span><span class="poi">爱情谷</span> <span class="en">(Love Valley)</span>
+          <div class="desc">徒步 + 谷底包围感日落（与16日Uçhisar视角区分）。</div></li>
+      </ol>
+    </div>
+
+    <div class="day">
+      <div class="day-title">2/18｜Nevşehir → Konya → AYT 接机（Plan A / Plan B）</div>
+      <ol>
+        <li><span class="t">09:00</span><span class="poi">从酒店出发</span>
+          <div class="desc">建议08:45前加油。</div></li>
+        <li><span class="t">12:00</span><span class="poi">科尼亚</span> <span class="en">(Konya)</span>
+          <div class="desc">Mevlana Museum：苏菲文化核心。</div></li>
+        <li><span class="t">Plan A</span><span class="poi">13:45–14:45 Çatalhöyük</span>
+          <div class="desc">新石器聚落（学术纵深）。</div></li>
+        <li><span class="t">Plan B</span><span class="poi">12:00–14:00 Konya 深度 + 午餐</span>
+          <div class="desc">更从容、到机场更稳。</div></li>
+        <li><span class="t">18:00</span><span class="poi">安塔利亚机场</span> <span class="en">(AYT)</span>
+          <div class="desc">到达接人；晚间再安排土耳其浴与老城+港口散步。</div></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const points = [{"day": "2/16", "time": "08:30", "cn": "来福士伊斯坦布尔", "en": "Raffles Istanbul", "lat": 41.066391, "lon": 29.01746, "desc": "退房。"}, {"day": "2/16", "time": "09:30–11:00", "cn": "Kadıköy（卡德柯伊）", "en": "Kadıköy", "lat": 40.9909, "lon": 29.0282, "desc": "亚洲区轻松游览：海边步道、市场。"}, {"day": "2/16", "time": "14:00", "cn": "伊斯坦布尔机场", "en": "Istanbul Airport (IST)", "lat": 41.275278, "lon": 28.751944, "desc": "起飞前往开塞利。"}, {"day": "2/16", "time": "15:30", "cn": "开塞利机场", "en": "Kayseri Airport (ASR)", "lat": 38.770386, "lon": 35.49543, "desc": "抵达（取车/转场）。"}, {"day": "2/16–17", "time": "入住", "cn": "内夫谢希尔卡帕多奇亚万豪", "en": "Nevşehir Cappadocia Marriott Hotel", "lat": 38.6245, "lon": 34.714, "desc": "住宿点（用于定位，坐标为近似）。"}, {"day": "2/16", "time": "17:30–18:00", "cn": "Uçhisar城堡", "en": "Uçhisar Castle", "lat": 38.6297, "lon": 34.8062, "desc": "日落全景制高点。"}, {"day": "2/17", "time": "06:45", "cn": "Göreme全景观景台", "en": "Göreme Panorama Viewpoint", "lat": 38.6422, "lon": 34.8279, "desc": "日出/气球氛围（不坐热气球也值得）。"}, {"day": "2/17", "time": "08:30", "cn": "帕夏贝（僧侣谷）", "en": "Paşabağ (Monks Valley)", "lat": 38.6677, "lon": 34.8487, "desc": "仙人烟囱密集区，沉浸式漫步。"}, {"day": "2/17", "time": "11:30", "cn": "阿瓦诺斯", "en": "Avanos", "lat": 38.715, "lon": 34.8469, "desc": "午餐+河边小镇氛围。"}, {"day": "2/17", "time": "12:30", "cn": "土耳其茶馆（建议：阿瓦诺斯河边）", "en": "Çay House (Avanos riverside)", "lat": 38.7143, "lon": 34.8462, "desc": "当地茶馆体验（Çay）。"}, {"day": "2/17", "time": "14:00", "cn": "Kaymaklı地下城", "en": "Kaymaklı Underground City", "lat": 38.4622, "lon": 34.7542, "desc": "地下避难体系，建议45–60分钟。"}, {"day": "2/17", "time": "16:00–日落", "cn": "爱情谷", "en": "Love Valley", "lat": 38.6599, "lon": 34.8606, "desc": "徒步+谷底包围感日落。"}, {"day": "2/18", "time": "12:00", "cn": "科尼亚", "en": "Konya", "lat": 37.8746, "lon": 32.4932, "desc": "Mevlana Museum（建议控制停留）。"}, {"day": "2/18(A)", "time": "13:45–14:45", "cn": "Çatalhöyük遗址", "en": "Çatalhöyük", "lat": 37.6689, "lon": 32.8265, "desc": "Plan A 才去（新石器聚落）。"}, {"day": "2/18", "time": "18:00", "cn": "安塔利亚机场", "en": "Antalya Airport (AYT)", "lat": 36.8987, "lon": 30.8005, "desc": "18:00 前后到达接人。"}];
+  const routeA = [[38.6245, 34.714], [37.8746, 32.4932], [37.6689, 32.8265], [36.8987, 30.8005]];
+  const routeB = [[38.6245, 34.714], [37.8746, 32.4932], [36.8987, 30.8005]];
+
+  // Fallback links
+  const linkUl = document.getElementById('linklist');
+  const allpoints = document.getElementById('allpoints');
+  allpoints.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(points.map(p => p.cn + " " + p.en).join(" | "));
+  points.forEach(p => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.textContent = `${p.day} ${p.time} — ${p.cn} (${p.en})`;
+    a.href = `https://www.google.com/maps?q=${p.lat},${p.lon}`;
+    a.target = "_blank"; a.rel="noopener";
+    li.appendChild(a);
+    linkUl.appendChild(li);
+  });
+
+  function showFallback() {
+    document.getElementById('fallback').style.display = 'block';
+    document.getElementById('map').style.display = 'none';
+  }
+
+  if (typeof L === 'undefined') {
+    showFallback();
+  } else {
+    try {
+      const map = L.map('map', { scrollWheelZoom: false });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      const markers = [];
+      const boundsAll = [];
+      points.forEach((p, idx) => {
+        const popup = `
+          <div style="font-size:13px;line-height:1.25">
+            <div><b>${p.cn}</b> <span style="color:#555">(${p.en})</span></div>
+            <div style="color:#555;font-size:12px;margin-top:2px">${p.day} · ${p.time}</div>
+            <div style="margin-top:6px;font-size:12px;color:#222">${p.desc}</div>
+            <div style="margin-top:6px;font-size:12px">
+              <a href="https://www.google.com/maps?q=${p.lat},${p.lon}" target="_blank" rel="noopener">Google Maps</a>
+              &nbsp;|&nbsp;
+              <a href="https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=18/${p.lat}/${p.lon}" target="_blank" rel="noopener">OpenStreetMap</a>
+            </div>
+          </div>
+        `;
+        const m = L.marker([p.lat, p.lon]).addTo(map).bindPopup(popup);
+        m._poi = p;
+        markers.push(m);
+        boundsAll.push([p.lat, p.lon]);
+      });
+
+      const polyA = L.polyline(routeA, { weight: 3, opacity: 0.7 });
+      const polyB = L.polyline(routeB, { weight: 3, opacity: 0.7 });
+      let activePoly = null;
+
+      window.fitAll = function() {
+        if (activePoly) {
+          map.fitBounds(activePoly.getBounds(), { padding: [18,18] });
+        } else {
+          map.fitBounds(boundsAll, { padding: [18,18] });
+        }
+      }
+
+      window.focusDay = function(dayKey) {
+        const b = [];
+        markers.forEach(m => {
+          if ((m._poi.day || "").startsWith(dayKey)) b.push([m._poi.lat, m._poi.lon]);
+        });
+        if (b.length >= 1) map.fitBounds(b, { padding:[18,18] });
+      }
+
+      window.showRoute = function(which) {
+        if (activePoly) {
+          map.removeLayer(activePoly);
+          activePoly = null;
+        }
+        if (which === 'A') {
+          activePoly = polyA.addTo(map);
+          map.fitBounds(activePoly.getBounds(), { padding:[18,18] });
+        } else if (which === 'B') {
+          activePoly = polyB.addTo(map);
+          map.fitBounds(activePoly.getBounds(), { padding:[18,18] });
+        } else {
+          // hide
+          fitAll();
+        }
+      }
+
+      // initial view: show all points
+      map.fitBounds(boundsAll, { padding: [18,18] });
+
+      // If tiles fail, fallback
+      setTimeout(() => {
+        const tiles = document.querySelectorAll('.leaflet-tile');
+        const anyLoaded = Array.from(tiles).some(t => t.complete && t.naturalWidth > 0);
+        if (!anyLoaded) showFallback();
+      }, 2500);
+
+    } catch (e) {
+      showFallback();
+    }
+  }
+</script>
+</body>
+</html>

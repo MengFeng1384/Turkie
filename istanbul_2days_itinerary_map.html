@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>伊斯坦布尔 2/14–2/15 行程（含地图）</title>
+
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+<style>
+  :root { --w: 980px; }
+  body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+         margin: 0; color: #111; background:#fff; }
+  header { padding: 18px 18px 0; max-width: var(--w); margin: 0 auto; }
+  h1 { font-size: 18px; margin: 0 0 6px; }
+  .meta { font-size: 12px; color:#444; margin: 0 0 10px; }
+  .wrap { max-width: var(--w); margin: 0 auto; padding: 12px 18px 22px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; }
+  #map { height: 520px; border: 1px solid #ddd; border-radius: 10px; }
+  .card { border:1px solid #e6e6e6; border-radius: 10px; padding: 12px; }
+  h2 { font-size: 14px; margin: 0 0 8px; }
+  .day { margin: 0 0 10px; }
+  .day-title { font-weight: 700; font-size: 13px; margin: 0 0 6px; }
+  ol { margin: 0; padding-left: 18px; }
+  li { margin: 0 0 6px; line-height: 1.25; }
+  .poi { font-weight: 600; }
+  .en { color:#555; font-weight: 500; }
+  .desc { color:#333; font-size: 12px; margin-top: 2px; }
+  .note { font-size: 11px; color:#555; margin: 8px 0 0; }
+  .legend { font-size: 11px; color:#444; margin-top: 8px; display:flex; gap:10px; flex-wrap: wrap; }
+  .pill { border:1px solid #ddd; border-radius: 999px; padding: 3px 8px; background:#fafafa; }
+  a { color: inherit; text-decoration: underline; }
+  @media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } #map{ height: 420px; } }
+  /* Print: one-page A4 */
+  @page { size: A4; margin: 10mm; }
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    header, .wrap { max-width: none; }
+    #map { height: 120mm; }
+    .wrap { grid-template-columns: 1fr; gap: 10px; }
+    .card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <h1>伊斯坦布尔 2/14–2/15 行程（含地图标记）</h1>
+  <p class="meta">版本：可打印A4（地图需联网加载）。交通以 M2地铁 / T1电车 / 轮渡为主，步行衔接为辅。</p>
+</header>
+
+<div class="wrap">
+  <div id="map" aria-label="地图"></div>
+
+  <div class="card">
+    <h2>行程总览（简洁版）</h2>
+
+    <div class="day">
+      <div class="day-title">2月14日｜帝国时间线与政治结构（高强度）</div>
+      <div class="note">住宿：Marriott Executive Apartments Fulya（万豪行政公寓 Fulya）</div>
+      <ol>
+        <li>
+          <span class="poi">伊斯坦布尔考古博物馆</span> <span class="en">Istanbul Archaeological Museums</span>
+          <div class="desc">建立“安纳托利亚→希腊化/罗马→拜占庭”时间线；重点：亚历山大石棺、罗马雕像群。</div>
+        </li>
+        <li>
+          <span class="poi">托普卡帕皇宫</span> <span class="en">Topkapi Palace</span>
+          <div class="desc">奥斯曼帝国权力中心；重点：第二庭院行政体系、后宫、宝藏。</div>
+        </li>
+        <li>
+          <span class="poi">赛马场广场（古君士坦丁堡赛马场）</span> <span class="en">Hippodrome / Sultanahmet Square</span>
+          <div class="desc">拜占庭公共政治空间；重点：方尖碑、蛇柱与帝国仪式场景。</div>
+        </li>
+        <li>
+          <span class="poi">地下水宫</span> <span class="en">Basilica Cistern</span>
+          <div class="desc">6世纪拜占庭工程；重点：柱林空间、梅杜莎柱基。</div>
+        </li>
+        <li>
+          <span class="poi">苏莱曼清真寺</span> <span class="en">Suleymaniye Mosque</span>
+          <div class="desc">奥斯曼建筑巅峰；重点：穹顶比例与金角湾视野。</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="day">
+      <div class="day-title">2月15日｜宗教建筑对比 + 巴扎 + Balat + 轮渡（松弛体验）</div>
+      <div class="note">住宿：Raffles Istanbul（来福士伊斯坦布尔，Zorlu Center）</div>
+      <ol>
+        <li>
+          <span class="poi">圣索菲亚大教堂</span> <span class="en">Hagia Sophia</span>
+          <div class="desc">拜占庭核心象征；重点：中央穹顶与多宗教叠加的空间语言。</div>
+        </li>
+        <li>
+          <span class="poi">蓝色清真寺</span> <span class="en">Blue Mosque</span>
+          <div class="desc">奥斯曼巅峰清真寺；重点：蓝色瓷砖与对称穹顶群。</div>
+        </li>
+        <li>
+          <span class="poi">地下水宫</span> <span class="en">Basilica Cistern</span>
+          <div class="desc">与索菲亚同区，作为宗教建筑群的“城市基础设施”补充理解。</div>
+        </li>
+        <li>
+          <span class="poi">大巴扎</span> <span class="en">Grand Bazaar</span>
+          <div class="desc">奥斯曼商业网络缩影；重点：拱顶街巷与传统工艺品。</div>
+        </li>
+        <li>
+          <span class="poi">香料市场</span> <span class="en">Spice Bazaar</span>
+          <div class="desc">传统香料与食品市集；重点：土耳其软糖、坚果、香料氛围。</div>
+        </li>
+        <li>
+          <span class="poi">Balat 街区</span> <span class="en">Balat</span>
+          <div class="desc">历史上的犹太/希腊社区；重点：彩色街屋与老城生活感。</div>
+        </li>
+        <li>
+          <span class="poi">Eminönü 轮渡码头</span> <span class="en">Eminönü Pier</span>
+          <div class="desc">建议搭乘轮渡体验博斯普鲁斯海峡视角的城市天际线。</div>
+        </li>
+        <li>
+          <span class="poi">加拉达塔</span> <span class="en">Galata Tower</span>
+          <div class="desc">中世纪热那亚塔楼；重点：俯瞰金角湾与老城轮廓。</div>
+        </li>
+        <li>
+          <span class="poi">佩拉宫酒店（钥匙纪念品）</span> <span class="en">Pera Palace Hotel</span>
+          <div class="desc">东方快车时代的城市文化地标；重点：19世纪欧洲化空间与纪念品。</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="legend">
+      <span class="pill">点击地图标记查看中英文名称与看点</span>
+      <span class="pill">地图底图：OpenStreetMap</span>
+      <span class="pill">打印：浏览器“打印/另存为PDF”</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+  // POI dataset (WGS84). Coordinates sourced from public lat/long databases and Wikipedia/Wikidata pages.
+  const points = [
+    // Hotels / anchors
+    { id:"hotel_fulya", day:"14", cn:"万豪行政公寓 Fulya", en:"Marriott Executive Apartments Fulya", lat:41.05803, lon:29.00318,
+      desc:"住宿/行李点（坐标为近似，便于地图定位）。" },
+
+    { id:"raffles", day:"15", cn:"来福士伊斯坦布尔", en:"Raffles Istanbul (Zorlu Center)", lat:41.066391, lon:29.017460,
+      desc:"15日晚住宿与寄存行李点（Zorlu Center）。" },
+
+    // Day 14 core
+    { id:"arch_museum", day:"14", cn:"伊斯坦布尔考古博物馆", en:"Istanbul Archaeological Museums", lat:41.010872, lon:28.981659,
+      desc:"文明时间线：亚历山大石棺、罗马雕像群。" },
+
+    { id:"topkapi", day:"14", cn:"托普卡帕皇宫", en:"Topkapi Palace", lat:41.011574, lon:28.983269,
+      desc:"奥斯曼权力中心：第二庭院、后宫、宝藏。" },
+
+    { id:"hippodrome", day:"14", cn:"赛马场广场", en:"Hippodrome / Sultanahmet Square", lat:41.00639, lon:28.97583,
+      desc:"拜占庭公共空间：方尖碑、蛇柱。" },
+
+    { id:"cistern", day:"14/15", cn:"地下水宫", en:"Basilica Cistern", lat:41.008362, lon:28.977762,
+      desc:"拜占庭工程：柱林空间、梅杜莎柱基。" },
+
+    { id:"suleymaniye", day:"14", cn:"苏莱曼清真寺", en:"Suleymaniye Mosque", lat:41.016064, lon:28.963760,
+      desc:"奥斯曼巅峰建筑：穹顶比例与视野。" },
+
+    // Day 15 core
+    { id:"hagia", day:"15", cn:"圣索菲亚大教堂", en:"Hagia Sophia", lat:41.008469, lon:28.980261,
+      desc:"拜占庭象征：中央穹顶与多宗教叠加。" },
+
+    { id:"blue", day:"15", cn:"蓝色清真寺", en:"Blue Mosque", lat:41.005745, lon:28.977114,
+      desc:"奥斯曼代表：蓝色瓷砖与对称穹顶群。" },
+
+    { id:"grandbazaar", day:"15", cn:"大巴扎", en:"Grand Bazaar", lat:41.010658, lon:28.968058,
+      desc:"拱顶街巷与传统工艺商业网络。" },
+
+    { id:"spice", day:"15", cn:"香料市场", en:"Spice Bazaar", lat:41.0098, lon:28.9690,
+      desc:"香料/食品市集：软糖、坚果、香料氛围。" },
+
+    { id:"balat", day:"15", cn:"Balat 街区", en:"Balat", lat:41.0328, lon:28.9456,
+      desc:"历史社区：彩色街屋与老城生活感。" },
+
+    { id:"eminonu_pier", day:"15", cn:"Eminönü 轮渡码头", en:"Eminönü Pier", lat:41.018139, lon:28.972889,
+      desc:"轮渡体验博斯普鲁斯海峡视角。" },
+
+    { id:"galata", day:"15", cn:"加拉达塔", en:"Galata Tower", lat:41.025658, lon:28.974155,
+      desc:"俯瞰金角湾与老城轮廓。" },
+
+    { id:"pera", day:"15", cn:"佩拉宫酒店", en:"Pera Palace Hotel", lat:41.031155, lon:28.973433,
+      desc:"东方快车时代文化地标；可购买钥匙纪念品。" }
+  ];
+
+  const map = L.map('map', { scrollWheelZoom: false });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const bounds = [];
+  points.forEach(p => {
+    const popup = `
+      <div style="font-size:13px;line-height:1.25">
+        <div><b>${p.cn}</b> <span style="color:#555">(${p.en})</span></div>
+        <div style="color:#555;font-size:12px;margin-top:2px">Day: ${p.day}</div>
+        <div style="margin-top:6px;font-size:12px;color:#222">${p.desc}</div>
+        <div style="margin-top:6px;font-size:12px">
+          <a href="https://www.google.com/maps?q=${p.lat},${p.lon}" target="_blank" rel="noopener">打开Google Maps</a>
+          &nbsp;|&nbsp;
+          <a href="https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=18/${p.lat}/${p.lon}" target="_blank" rel="noopener">打开OpenStreetMap</a>
+        </div>
+      </div>
+    `;
+    const marker = L.marker([p.lat, p.lon]).addTo(map).bindPopup(popup);
+    bounds.push([p.lat, p.lon]);
+  });
+
+  map.fitBounds(bounds, { padding: [18, 18] });
+</script>
+</body>
+</html>

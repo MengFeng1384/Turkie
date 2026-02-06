@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>土耳其 2/18–2/21 完整终版行程</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;background:#0f1720;color:#e8eef7}
+.wrap{max-width:1250px;margin:auto;padding:20px}
+h1{margin:0 0 12px;font-size:20px}
+.grid{display:grid;grid-template-columns:1.3fr .7fr;gap:20px}
+#map{height:700px;border-radius:16px}
+.card{background:#182230;padding:16px;border-radius:16px;margin-bottom:16px}
+h2{margin:0 0 10px;font-size:15px}
+ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{border-bottom:1px solid #2b3645;padding:8px}
+th{text-align:left;color:#9ec5ff}
+small{color:#9aa9bb}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>土耳其 2/18–2/21 完整终版执行路线（含 Amyntas 夜景）</h1>
+
+<div class="grid">
+<div id="map"></div>
+
+<div>
+
+<div class="card">
+<h2>2/18 安塔利亚</h2>
+<ul>
+<li>18:00 Antalya Airport</li>
+<li>19:00 入住 Marriott Executive Apartments</li>
+<li>19:30–20:45 Hamam</li>
+<li>21:00 Kaleiçi 老城 + 港口夜景</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>2/19 海岸古城 → Kaş</h2>
+<ul>
+<li>09:30 出发</li>
+<li>10:35 Phaselis（海湾古城 + 海滩）</li>
+<li>12:55 Myra（岩墓 + 剧场）</li>
+<li>16:00 Kaş</li>
+<li>16:45 占卜咖啡</li>
+<li>17:45 港口日落</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>2/20 海岸强化 + 山顶日落 + 夜景</h2>
+<ul>
+<li>09:00 Kaş 出发</li>
+<li>11:00–12:45 Ölüdeniz 蓝湖</li>
+<li>13:30–14:15 Kayaköy 幽灵村</li>
+<li>16:15–18:00 Tlos 古城日落</li>
+<li>19:10–19:40 Amyntas Rock Tombs 夜景</li>
+<li>20:00–21:00 Fethiye 老城散步</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>2/21 以弗所 → 伊兹密尔机场</h2>
+<ul>
+<li>08:30 Fethiye 出发</li>
+<li>12:00–14:00 Ephesus</li>
+<li>15:00 İzmir Airport</li>
+<li>17:00 航班</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>门票参考</h2>
+<table>
+<tr><th>景点</th><th>价格</th></tr>
+<tr><td>Phaselis</td><td>476 TRY</td></tr>
+<tr><td>Myra</td><td>450 TRY</td></tr>
+<tr><td>Tlos</td><td>约 €3</td></tr>
+<tr><td>Ephesus</td><td>€40</td></tr>
+<tr><td>Ephesus + Terrace Houses</td><td>€52</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+var map = L.map('map').setView([36.8,29.6],7);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+
+// 全程路线顺序
+var route = [
+[36.8987,30.8005], // Antalya Airport
+[36.5242,30.5517], // Phaselis
+[36.2443,29.9852], // Myra
+[36.2016,29.6374], // Kaş
+[36.5483,29.1138], // Ölüdeniz
+[36.5714,29.0927], // Kayaköy
+[36.5126,29.4194], // Tlos
+[36.6214,29.1158], // Amyntas
+[37.9410,27.3410], // Ephesus
+[38.2924,27.1567]  // Izmir Airport
+];
+
+var labels = [
+"Antalya Airport",
+"Phaselis",
+"Myra",
+"Kaş",
+"Ölüdeniz",
+"Kayaköy",
+"Tlos 日落",
+"Amyntas Rock Tombs 夜景",
+"Ephesus",
+"Izmir Airport"
+];
+
+route.forEach(function(p,i){
+L.marker(p).addTo(map).bindPopup(labels[i]);
+});
+
+var polyline = L.polyline(route,{color:'#4aa3ff',weight:5}).addTo(map);
+map.fitBounds(polyline.getBounds());
+</script>
+
+</body>
+</html>
